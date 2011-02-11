@@ -5,6 +5,7 @@ module HaskellMD.Atom
 , Atom(Atom)
 ) where
 
+import HaskellMD.Vector
 
 data Element = H | Li | B | C | N | O | F | Na | Mg | Si | P | S | Cl | K | Ca | Br | I | Cs | Ba
         deriving (Show, Eq, Ord)
@@ -12,7 +13,11 @@ data Element = H | Li | B | C | N | O | F | Na | Mg | Si | P | S | Cl | K | Ca |
 type AtomID = Integer
 type Charge = Double
 
-data Atom = Atom Element Charge AtomID
-        deriving (Show, Eq, Ord)
+data Atom = Atom {
+  element :: Element,
+  position :: Position,
+  charge :: Charge,
+  id :: AtomID
+} deriving (Show, Eq, Ord)
 
 

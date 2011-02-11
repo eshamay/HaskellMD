@@ -1,11 +1,14 @@
-
 module HaskellMD.Vector
-(vecr3d
-) where
+(Position,
+ vecr3d,
+ cosAngle) where
 
 import Data.Packed.Vector
 import Numeric.Container
 
---vecr3d :: Double -> Double -> Double -> Vector
-vecr3d x y z = fromList [x,y,z] :: Vector Double
+type Position = Vector Double
+vecr3d :: Double -> Double -> Double -> Position
+vecr3d a b c = fromList [a,b,c] :: Vector Double
 
+cosAngle :: Position -> Position -> Double
+cosAngle a b = (dot a b) / (norm2 a) / (norm2 b)
