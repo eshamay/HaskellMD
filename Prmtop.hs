@@ -17,8 +17,6 @@ data Prmtop = Prmtop
     mass :: [Double]
   } deriving (Show)
 
-type PrmtopMap = Map.Map String [String]
-
 parsePrmtopSection = (map read . words . concat . fromJust)
 
 --ParsePrmtopFile :: String -> Prmtop
