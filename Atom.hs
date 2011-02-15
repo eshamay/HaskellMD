@@ -1,5 +1,5 @@
 module HaskellMD.Atom
-( Element (H, Li, B, C, N, O, F, Na, Mg, Si, P, S, Cl, K, Ca, Br, I, Cs, Ba)
+( Element (..)
 , AtomID
 , Charge
 , Atom(Atom)
