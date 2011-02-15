@@ -1,6 +1,6 @@
 module HaskellMD.Prmtop
 (Prmtop (..),
- parsePrmtopFile,
+ parsePrmtopFile
  ) where
 
 import Data.List

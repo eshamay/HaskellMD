@@ -1,13 +1,14 @@
 module HaskellMD.AmberSystem
-(AmberSystem)
-    where
+(AmberSystem) where
 
 import HaskellMD.Atom
-import HaskellMD.Vector
+import HaskellMD.Prmtop
+import HaskellMD.MDCrd
+
 
 data AmberSystem = {
   prmtop :: Prmtop,
-  mdcrd :: [Position]
+  mdcrd :: Coordinates
 }
 
 type prmtopFile = String

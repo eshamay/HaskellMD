@@ -1,5 +1,6 @@
 module HaskellMD.Vector
 (Position,
+ Coordinates,
  vecr3d,
  cosAngle) where
 
