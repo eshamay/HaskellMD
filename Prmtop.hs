@@ -1,19 +1,39 @@
 module HaskellMD.Prmtop
-(readPrmtopFile
+(readPrmtopFile,
+ PrmtopMap
  ) where
 
-import qualified Data.Map as Map
 import Data.List
-import Data.List.Split
+import Data.Char (isSpace)
+import qualified Data.Map as Map
 
-readPrmtopFile :: String -> [(String,[String])]
+type PrmtopMap = Map.Map String [String]
+
+-- parse a prmtop file and return a map
+readPrmtopFile :: String -> Map.Map String [String]
 readPrmtopFile input = 
-        let     alllines = snd $ break isFlag $ lines input
-                splitSections input =
-                        (fst $ s) : fst $ break isFlag s
-                            where s = span isFlag input
-        in sections
+        let alllines = snd $ break isFlag $ lines input
+        in	do
+					Map.fromList $ parseSections alllines
 
+-- does the deconstruction of the various sections of the file
+parseSections :: [String] -> [(String,[String])]
+parseSections [] = []
+-- this part forms the tuples for the map, and also removes all the FORMAT specifiers for each section
+parseSections (x:xs) = (parseFlag x, tail $ fst s) : (parseSections $ snd s)
+	where s = break isFlag xs
+
+-- parses the name of the FLAG identifiers
+parseFlag :: String -> String
+parseFlag x = (trim . snd) $ break (\y -> y == ' ') x
+
+-- predicate for checking if a line is a flag
+-- lines starting new sections are flags, and always have the form "%FLAG <flagname>"
 isFlag :: String -> Bool
-isFlag x = isPrefixOf "%FLAG" x
+isFlag x = isPrefixOf "%FLAG " x
+
+-- removes whitespace from strings
+trim      :: String -> String
+trim      = f . f
+	where f = reverse . dropWhile isSpace
 
