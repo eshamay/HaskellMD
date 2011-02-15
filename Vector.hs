@@ -7,6 +7,7 @@ import Data.Packed.Vector
 import Numeric.Container
 
 type Position = Vector Double
+type Coordinates = [Position]
 
 vecr3d :: Double -> Double -> Double -> Position
 vecr3d a b c = fromList [a,b,c] :: Position
