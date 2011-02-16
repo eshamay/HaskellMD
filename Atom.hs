@@ -5,9 +5,11 @@ module HaskellMD.Atom
 , Charge
 , AtomName
 , Atom(..)
+, toAtom
 ) where
 
 import HaskellMD.Vector
+import Data.List
 
 data Element = H | Li | B | C | N | O | F | Na | Mg | Si | P | S | Cl | K | Ca | Br | I | Cs | Ba
         deriving (Show, Eq, Ord)
@@ -19,13 +21,12 @@ type AtomName = String
 data Atom = Atom {
   name :: AtomName,
   element :: Element,
-  position :: Position,
   charge :: Charge,
   atom_id :: AtomID
 } deriving (Show, Eq, Ord)
 
-toAtom :: (String, Element, Position, Charge, AtomID) -> Atom
-toAtom (n, e, p, c, i) = Atom {name=n, element=e, position=p, charge=c, atom_id=i}
+toAtom :: (String, Element, Charge, AtomID) -> Atom
+toAtom (n, e, c, i) = Atom {name=n, element=e, charge=c, atom_id=i}
 
 toElement :: String -> Element
 toElement s

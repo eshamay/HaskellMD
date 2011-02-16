@@ -1,6 +1,8 @@
 module HaskellMD.Prmtop
 (Prmtop (..),
- parsePrmtopFile
+ parsePrmtopFile,
+ numAtoms,
+ numMolecules
  ) where
 
 import Data.List
@@ -17,9 +19,18 @@ data Prmtop = Prmtop
     mass :: [Double]
   } deriving (Show)
 
+
+-- number of atoms in the topology
+numAtoms :: Prmtop -> Integer
+numAtoms prmtop = head $ pointers prmtop
+
+-- number of molecules in the topology
+numMolecules :: Prmtop -> Integer
+numMolecules prmtop = last $ take 12 $ pointers prmtop
+
 parsePrmtopSection = (map read . words . concat . fromJust)
 
---ParsePrmtopFile :: String -> Prmtop
+parsePrmtopFile :: String -> Prmtop
 parsePrmtopFile input = let 
     prmtop = readPrmtopFile input
     record = Prmtop { 
