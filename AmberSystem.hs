@@ -12,17 +12,28 @@ import HaskellMD.Atom
 import HaskellMD.Prmtop
 import HaskellMD.MDCrd
 
+-- How to do mutable data from an incoming data file:
+  -- Prelude> :m Data.IORef 
+  -- Prelude Data.IORef> x <- newIORef [] :: IO (IORef [Int]) 
+  -- Prelude Data.IORef> writeIORef x [1,2,3] 
+  -- Prelude Data.IORef> readIORef x 
+  -- [1,2,3] 
+import Data.IORef
+
 -- the full amber system from which lists of atoms can be parsed
-data AmberSystem = AmberSystem Prmtop Coordinates
 type PrmtopFile = FilePath
 type MDCrdFile = FilePath
+
+data AmberSystem = AmberSystem Prmtop (IO (IORef [Position]))
 
 loadAmberSystem :: PrmtopFile -> MDCrdFile -> IO AmberSystem
 loadAmberSystem prmtoppath mdcrdpath = do
   prmtop <- readFile prmtoppath
   mdcrd <- readFile mdcrdpath
-  return $ AmberSystem (parsePrmtopFile prmtop) (parseMDCrdFile mdcrd)
+  coordinates <- newIORef [] :: IO (IORef [Position])
+  AmberSystem (parsePrmtopFile prmtop) (parseMDCrdFile mdcrd coordinates)
 
+{-
 type AtomList = [(Atom,Position)]
 
 -- extract the atom list from the amber system
@@ -45,3 +56,4 @@ loadNext (AmberSystem prmtop mdcrd) =
 skipNext :: Integer -> AmberSystem -> AmberSystem
 skipNext n (AmberSystem prmtop mdcrd) =
   AmberSystem prmtop (fst $ mdcrdSkipNext n (numAtoms prmtop) mdcrd)
+-}

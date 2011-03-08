@@ -15,4 +15,3 @@ vecr3d a b c = fromList [a,b,c] :: Position
 
 cosAngle :: Position -> Position -> Double
 cosAngle a b = (dot a b) / (norm2 a) / (norm2 b)
-
